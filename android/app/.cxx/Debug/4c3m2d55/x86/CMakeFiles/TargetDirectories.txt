@@ -1,0 +1,2 @@
+C:/dev/AppliFlutter/wall_eat_project/android/app/.cxx/Debug/4c3m2d55/x86/CMakeFiles/edit_cache.dir
+C:/dev/AppliFlutter/wall_eat_project/android/app/.cxx/Debug/4c3m2d55/x86/CMakeFiles/rebuild_cache.dir

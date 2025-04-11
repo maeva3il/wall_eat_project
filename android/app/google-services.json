@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "866788366088",
+    "project_id": "walleatproject",
+    "storage_bucket": "walleatproject.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866788366088:android:399deda906a11496d43ebd",
+        "android_client_info": {
+          "package_name": "com.example.wall_eat_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBz8DQn96HKK7cKwapRglPwur4M5_pSgb8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
