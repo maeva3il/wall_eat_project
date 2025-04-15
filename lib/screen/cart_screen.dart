@@ -15,7 +15,6 @@ class CartScreen extends StatelessWidget {
     final orderProvider = Provider.of<OrderProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Panier')),
       body: Column(
         children: [
           Expanded(

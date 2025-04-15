@@ -16,7 +16,8 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     super.initState();
-    final userId = Provider.of<UserProvider>(context, listen: false).user?.uid ?? '';
+    final userId =
+        Provider.of<UserProvider>(context, listen: false).user?.uid ?? '';
     Provider.of<OrderProvider>(context, listen: false)
         .fetchOrders(userId)
         .then((_) {
@@ -28,6 +29,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final orderProvider = Provider.of<OrderProvider>(context);
 
     if (_isLoading) {
@@ -43,14 +45,66 @@ class _OrdersScreenState extends State<OrdersScreen> {
     }
 
     return Scaffold(
-      body: ListView.builder(
+      body: ListView.separated(
+        padding: const EdgeInsets.all(16),
         itemCount: orderProvider.orders.length,
+        separatorBuilder: (context, index) => const SizedBox(height: 16),
         itemBuilder: (context, index) {
           final order = orderProvider.orders[index];
-          return ListTile(
-            title: Text('Commande #${order.id}'),
-            subtitle: Text('Total: ${order.total}€ - ${order.status}'),
-            trailing: Text(order.date.toString()),
+          return Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'Commande #${order.id}',
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          order.status,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Total: ${order.total}€',
+                    style: theme.textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Date: ${order.date}',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         },
       ),

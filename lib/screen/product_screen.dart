@@ -125,13 +125,6 @@ class ProductScreen extends StatelessWidget {
                       imageUrl: product.imageUrl,
                     ),
                   );
-
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('${product.name} ajouté au panier'),
-                      behavior: SnackBarBehavior.floating,
-                    ),
-                  );
                 },
               ),
             ),

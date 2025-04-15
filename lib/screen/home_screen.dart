@@ -6,9 +6,9 @@ import 'package:wall_eat_project/provider/user_provider.dart';
 import 'package:wall_eat_project/screen/cart_screen.dart';
 import 'package:wall_eat_project/screen/order_screen.dart';
 import 'package:wall_eat_project/screen/profil_screen.dart';
-import 'package:wall_eat_project/screen/store.screen.dart';
+import 'package:wall_eat_project/screen/store_screen.dart';
 import 'package:wall_eat_project/service/auth_service.dart';
-import 'package:wall_eat_project/service/store_map_screen.dart';
+import 'package:wall_eat_project/screen/store_map_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -184,53 +184,115 @@ class _HomeContent extends StatelessWidget {
     return ListView(
       children: [
         const SizedBox(height: 20),
-        _buildStoreList(storeProvider),
+        _buildStoreList(context, storeProvider),
       ],
     );
   }
 
-  Widget _buildStoreList(StoreProvider storeProvider) {
+// Dans la classe _HomeContent (remplacer _buildStoreList)
+  Widget _buildStoreList(BuildContext context, StoreProvider storeProvider) {
     return Column(
       children: [
-        const Text(
-          "Magasins disponibles",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Text(
+            "Magasins disponibles",
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
         ),
-        const SizedBox(height: 10),
         ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: storeProvider.stores.length,
           itemBuilder: (context, index) {
             final store = storeProvider.stores[index];
-            return ListTile(
-              title: Text(store.name),
-              subtitle: Text(store.address),
-              trailing: IconButton(
-                icon: const Icon(Icons.map),
-                onPressed: () {
+            return Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => StoreMapScreen(
+                      builder: (_) => StoreScreen(
+                        storeId: store.id,
                         storeName: store.name,
-                        storeAddress: store.address,
                       ),
                     ),
                   );
                 },
-              ),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => StoreScreen(
-                      storeId: store.id,
-                      storeName: store.name,
-                    ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Container(
+                          width: 80,
+                          height: 80,
+                          color: Colors.grey[200],
+                          child: const Icon(Icons.store, size: 40),
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              store.name,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              store.address,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.map),
+                            tooltip: "Voir sur la carte",
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => StoreMapScreen(
+                                    storeAddress: store.address,
+                                    storeName: store.name,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.chevron_right),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => StoreScreen(
+                                    storeId: store.id,
+                                    storeName: store.name,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ),
             );
           },
         ),
